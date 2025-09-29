@@ -1,0 +1,57 @@
+{
+  "name": "@amzn/epgsampleapp",
+  "version": "0.0.2",
+  "files": ["dist"],
+  "scripts": {
+    "clean": "rm -rf bundle build dist node_modules",
+    "compile": "tsc -p tsconfig-build.json",
+    "format": "npm-run-all lint:fix format:fix",
+    "format:check": "prettier --check src tst",
+    "format:fix": "prettier --write src tst",
+    "lint": "eslint src tst --ext .ts,.tsx",
+    "lint:fix": "eslint src tst --ext .ts,.tsx --fix",
+    "start": "react-native start",
+    "test": "echo jest --colors",
+    "test:snapshot": "jest --colors --updateSnapshot",
+    "build:release": "react-native build-kepler --build-type Release",
+    "build:app": "npm-run-all build:release build:debug",
+    "build:debug": "react-native build-kepler --build-type Debug",
+    "release": "run-s build:release build:debug",
+    "prepublishOnly": "npm run build:release"
+  },
+  "dependencies": {
+    "@amzn/react-native-kepler": "^2.0.0",
+    "react": "18.2.0",
+    "react-native": "0.72.0",
+    "@amzn/kepler-ui-components": "^2.0.0",
+    "date-fns": "^4.0.0",
+    "@amzn/kepler-performance-api": "^0"
+  },
+  "devDependencies": {
+    "@amzn/kepler-cli-platform": "^0",
+    "@react-native/eslint-config": "0.72.2",
+    "@react-native/metro-config": "^0.72.6",
+    "@react-native-community/cli": "11.3.2",
+    "@testing-library/react-native": "^7.2.0",
+    "@types/jest": "^28.0.0",
+    "@types/react": "^18.0.24",
+    "@types/react-test-renderer": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "babel-jest": "^28.0.0",
+    "eslint": "^8.12.0",
+    "jest": "^28.0.0",
+    "metro-react-native-babel-preset": "^0.76.5",
+    "mustache": "^4.2.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
+    "react-test-renderer": "18.2.0",
+    "ts-jest": "^28.0.0",
+    "typescript": "4.8.4"
+  },
+  "kepler": {
+    "projectType": "application",
+    "appName": "epgsampleapp",
+    "targets": ["tv"],
+    "features": ["vega"]
+  }
+}

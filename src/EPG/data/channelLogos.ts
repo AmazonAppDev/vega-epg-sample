@@ -1,0 +1,25 @@
+require("../../../assets/image/channelLogos/group1/channel1.png")
+require("../../../assets/image/channelLogos/group1/channel2.png")
+require("../../../assets/image/channelLogos/group1/channel3.png")
+require("../../../assets/image/channelLogos/group1/channel4.png")
+require("../../../assets/image/channelLogos/group1/channel5.png")
+require("../../../assets/image/channelLogos/group1/channel6.png")
+require("../../../assets/image/channelLogos/group1/channel7.png")
+require("../../../assets/image/channelLogos/group1/channel8.png")
+require("../../../assets/image/channelLogos/group1/channel9.png")
+require("../../../assets/image/channelLogos/group1/channel10.png")
+require("../../../assets/image/channelLogos/group1/channel12.png")
+require("../../../assets/image/channelLogos/group1/channel11.png")
+require("../../../assets/image/channelLogos/group1/channel15.png")
+require("../../../assets/image/channelLogos/group1/channel13.png")
+require("../../../assets/image/channelLogos/group1/channel14.png")
+require("../../../assets/image/channelLogos/group1/channel16.png")
+
+
+require("../../../assets/image/channelLogos/group2/channel1.png")
+require("../../../assets/image/channelLogos/group2/channel2.png")
+require("../../../assets/image/channelLogos/group2/channel3.png")
+require("../../../assets/image/channelLogos/group2/channel4.png")
+require("../../../assets/image/channelLogos/group2/channel5.png")
+
+export default {}
