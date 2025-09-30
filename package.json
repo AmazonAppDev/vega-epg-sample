@@ -1,7 +1,9 @@
 {
-  "name": "@amzn/epgsampleapp",
+  "name": "epgsampleapp",
   "version": "0.0.2",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "clean": "rm -rf bundle build dist node_modules",
     "compile": "tsc -p tsconfig-build.json",
@@ -20,15 +22,14 @@
     "prepublishOnly": "npm run build:release"
   },
   "dependencies": {
-    "@amzn/react-native-kepler": "^2.0.0",
     "react": "18.2.0",
     "react-native": "0.72.0",
-    "@amzn/kepler-ui-components": "^2.0.0",
     "date-fns": "^4.0.0",
-    "@amzn/kepler-performance-api": "^0"
+    "@amazon-devices/kepler-performance-api": "^0",
+    "@amazon-devices/react-native-kepler": "^2.0.0",
+    "@amazon-devices/kepler-ui-components": "^2.0.0"
   },
   "devDependencies": {
-    "@amzn/kepler-cli-platform": "^0",
     "@react-native/eslint-config": "0.72.2",
     "@react-native/metro-config": "^0.72.6",
     "@react-native-community/cli": "11.3.2",
@@ -46,12 +47,18 @@
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",
     "ts-jest": "^28.0.0",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "@amazon-devices/kepler-cli-platform": "^0"
   },
   "kepler": {
     "projectType": "application",
     "appName": "epgsampleapp",
-    "targets": ["tv"],
-    "features": ["vega"]
-  }
+    "targets": [
+      "tv"
+    ],
+    "features": [
+      "vega"
+    ]
+  },
+  "overrides": {}
 }

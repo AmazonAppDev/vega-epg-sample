@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 import {addDays, addMinutes, isBefore, roundToNearestMinutes} from 'date-fns';
-import {Channel, Program} from '@amzn/keplerscript-epg';
+import {Channel, Program} from '@amazon-devices/keplerscript-epg';
 import {} from './channelLogos';
 import headerImages from '../images.json';
 

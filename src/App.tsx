@@ -5,8 +5,8 @@ import React, { useRef, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { roundToNearestMinutes } from 'date-fns';
 
-import { EPG, EPGActions, Typography } from '@amzn/kepler-ui-components';
-import { useReportFullyDrawn } from '@amzn/kepler-performance-api';
+import { EPG, EPGActions, Typography } from '@amazon-devices/kepler-ui-components';
+import { useReportFullyDrawn } from '@amazon-devices/kepler-performance-api';
 
 
 import { GROUP_2_DATA, GROUP_1_DATA } from './EPG/data';
