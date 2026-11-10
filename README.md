@@ -4,7 +4,7 @@ Vega EPG Sample App
 Introduction
 ------------
 
-The EPG (Electronic Program Guide) Sample App demonstrates how to use the EPG components to build a TV Guide experience.
+The EPG (Electronic Program Guide) Sample App demonstrates how to use EPG components to build a TV Guide experience.
 
 
 Build and run the app
@@ -12,60 +12,58 @@ Build and run the app
 
 ### Prerequisites
 
-Before you launch the sample app, make sure that you have [installed the Vega SDK](https://developer.amazon.com/docs/vega/0.21/install-vega-sdk.html).
+Before you launch the sample app, make sure that you have [installed the Vega SDK](https://developer.amazon.com/docs/vega/latest/install-vega-sdk.html).
 
 
 ### Step 1: Build the app
 
-After you download the source code from GitHub, you can build the EPG Sample App from the command line to generate VPKG files. The VPKG files run on the Vega Virtual Device and Vega Fire TV Stick.
+After you download the source code from GitHub, build the EPG Sample App from the command line to generate VPKG files. The VPKG files run on the Vega Virtual Device and Vega Fire TV Stick.
 
-You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup-extension.html) with Visual Studio Code to build the app.
+To build the app with [Vega Studio](https://developer.amazon.com/docs/vega/latest/setup-extension.html), use Visual Studio Code.
 
-1. At the command prompt, navigate to the EPG Sample App source code directory. 
+1. At the command prompt, navigate to the EPG Sample App source code directory.
 
-2. To install the app dependencies, run the following command. 
+2. To install the app dependencies, run the following command. The installation can take several minutes to complete.
 
    ```
    npm install
    ```
 
-3. To build the app to generate .vpkg files, run the following command.
+3. To build the app and generate .vpkg files, run the following command.
 
    ```
    npm run build:app
    ```
 
-4. At the command prompt, in the **build** folder, verify that you generated the VPKG files for your device's architecture.
+4. At the command prompt, in the **build** folder, verify that the build generated the VPKG files for your device architecture.
 
-   * **armv7-release/epgsampleapp_armv7.vpkg**&mdash;generated on x86_64 and Mac-M series devices to run on the Vega Fire TV Stick.
-   * **x86_64-release/epgsampleapp_x86_64.vpkg**&mdash;generated on x86_64 device to run on the KVD.
-   * **aarch64-release/epgsampleapp_aarch64.vpkg**&mdash;generated on Mac M-series device to run on the KVD.
-   
+   * **armv7-release/epgsampleapp_armv7.vpkg**&mdash;Generated on x86_64 and Mac M-series devices to run on the Vega Fire TV Stick.
+   * **x86_64-release/epgsampleapp_x86_64.vpkg**&mdash;Generated on x86_64 devices to run on the KVD.
+   * **aarch64-release/epgsampleapp_aarch64.vpkg**&mdash;Generated on Mac M-series devices to run on the KVD.
+
 ### Step 2: Run the app
 
 #### Vega Virtual Device
 
-1. To start the Vega Virtual Device, at the command prompt, run the following command.
+1. To start the Vega Virtual Device, run the following command at the command prompt.
 
    ```
-   kepler virtual-device start
+   vega virtual-device start
    ```
 
-2. Go to the directory where you placed the VPKG files. 
+2. To install and launch the app on the Vega Virtual Device, run the following command for your device architecture.
 
-3. To install and launch the app on the Vega Virtual Device, run the following command, depending on your device architecture.
+   - On Mac M-series based devices:
 
-   - On Mac M-series based devices. 
-      
       ```
-      kepler run-kepler build/aarch64-release/epgsampleapp_aarch64.vpkg
+      vega run-app build/aarch64-release/epgsampleapp_aarch64.vpkg
       ```
 
-   - On x86_64 based devices.
-      
+   - On x86_64 based devices:
+
      ```
-     kepler run-kepler build/x86_64-release/epgsampleapp_x86_64.vpkg
-     ```  
+     vega run-app build/x86_64-release/epgsampleapp_x86_64.vpkg
+     ```
 
 #### Fire TV Stick
 
@@ -74,35 +72,29 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup
 2. To install and launch the app on your Fire TV Stick, run the following command.
 
    ```
-   kepler run-kepler build/armv7-release/epgsampleapp_armv7.vpkg
+   vega run-app build/armv7-release/epgsampleapp_armv7.vpkg
    ```
-
 
 
 Update your package.json file
 -----------------------------
 
-The EPG component is available through the KUIC library. Make sure your **package.json** lists KUIC in its **dependencies** section as shown below.
+The EPG component is `KeplerEPG` from the `@amazon-devices/keplerscript-epg` package. Make sure your **package.json** lists that package in its **dependencies** section as the following example shows.
 
 ```json
 "dependencies": {
     // ...
-    "@amazon-devices/kepler-ui-components": "^2.0.0",
+    "@amazon-devices/keplerscript-epg": "^2.0.0",
 }
 ```
-
-
-The `^` in the semver expression indicates that any new versions before 3.0.0 can be taken automatically.
-
-To learn more about getting started with KUIC, see [Get Started with the Vega UI Component Library](https://developer.amazon.com/docs/vega-api/0.21/get-started.html).
 
 EPG component usage and props
 -----------------------------
 
-The following code example shows the usage of EPG. The EPG component must also be provided with channel and program data through the [`updateData`](#updatedata-method) method.
+The following code example shows the usage of the EPG component. You must also provide channel and program data through the [`updateData`](#updatedata-method) method.
 
 ```ts
-<EPG
+<KeplerEPG
     ref={epg}
     onScroll={({ row, timeMs }: EPGScrollEvent) => {
         // handler code here
@@ -136,74 +128,75 @@ The following code example shows the usage of EPG. The EPG component must also b
 
 
 
-|Prop	|Description	|Type	|Optional	|Default|
-|---	|---	        |---	|---	    |---	|
-| `onScroll` | Callback when the user moves around to different cells, after animation is complete.	| `(event: EPGScrollEvent) => void`	| Yes | 	|	
-| `onTileFocus` | Callback when the user focuses on a cell (lands on it for 250ms or longer). | `(event: EPGTileFocusEvent)` | No	|	|	
-| `onTilePress` | Callback when user selects a cell.	| `(event: EPGTilePressEvent) => void` | No	|	|
-| `onMenu` | Callback when the menu (3 lines) button is pressed. | `(event: EPGInteractionEvent) => void` | Yes |  |	
-| `onMetricEmit` | Callback when certain metrics, related to performance, are fired. | `(event: EPGMetricsEmitEvent) => void` | Yes | |	
-| `favoriteStyle` | Container for the favorite related props. | | Yes | |	
-| `favoriteStyle.imageOn` | Specify the image in **assets/image** to use for a channel that is a favorite. | | Yes | With no image provided, the favorite functionality is off, with no visual indicator of the favorite status. |	
-| `favoriteStyle.imageOff` | Specify the image in **assets/image** to use for a channel that is not a favorite. | `ColorValue` | Yes | #E94047 |	
-| `focusBorder`	| Container for focus border props. |  | Yes	|  |	
-| `focusBorder.enabled` | Whether to display a border around the focused cell. | `boolean` | Yes	| `FALSE` |	
-| `focusBorder.color` | What color value (in hex) to use for the focused cell border. |`ColorValue`	| Yes | #FFC166 |	
-| `localizedStrings` | Allows users to specify the text that appears in the EPG. `localizedStrings` specifically modifies the text that is not determined by the data. |  | Yes |  |
-| `localizedStrings.loadingText`  | `loadingText` appears on program tiles when data has not been loaded yet. | string | Yes | "Loading schedule..." |	
-| `localizedStrings.unavailableText` | `unavailableText` appears on program tiles that have loaded data, but the data is invalid. | string | Yes | Programming information unavailable."  |	
-| `localizedStrings.favoriteAccessibilityLabel` | `favoriteAccessibilityLabel` is used to create the accessibility label for a channel. This text specifically describes if the channel is a favorite or not. | string | Yes | "Favorite" |	
-| `logoStyle` | Container for channel logo related style props.	|	|Yes	|	|	
-| `logoStyle.backgroundColor` | Background color for channel logo cells on the left side of the grid. | `ColorValue` | Yes | #4A4A4A |	
-| `logoStyle.width` | Width in pixels for the channel logo cells on the left side of the grid (this also affects the space reserved on the left side of the timeline bar at the top). | `number` | Yes | 363 |	
-| `overlayStyle` | Container for overlay props (the term overlay referring to a 'progress bar' type indicator within the program cells showing the viewer the current time's position within the program). |  | Yes |	|
-| `overlayStyle.enabled` | Prop to show an overlay within each program tile. | `boolean` | No (if overlayStyle is specified) | `FALSE` |	
-| `overlayStyle.pendingColor` | Color to use for the section of the overlay representing the program that is still yet to be shown. | `ColorValue` | Yes | #3D3D3D |	
-| `overlayStyle.elapsedColor` | Color to use for the section of the overlay representing the program that has already aired. | `ColorValue` | Yes | #E94047 |	
-| `tileLayout` | Specifying the layout variant for each program tile: by default in 'standard' mode only title is shown. In 'expanded' description is also shown and autogenerated text specifying how many minutes are left in the program. | `standard` <br> `expanded` | Yes	| `standard` |	
-| `tileStyle` | Container for tile style props.	| | Yes |	|	
-| `tileStyle.backgroundColor` | Default background color (in hex). | `ColorValue` | Yes | #2A2A2A |	
-| `tileStyle.foregroundColor` | Default foreground (text) color (in hex). | `ColorValue` | Yes | #F0F0F0 |	
-| `tileStyle.focusedForegroundColor` | Foreground text color for a focused cell.	| `ColorValue` | Yes | #1A1A1A |	
-| `tileStyle.elapsedBackgroundColor` | Background color for the part of a cell which has elapsed (for a program which is currently on). | `ColorValue` | Yes | #F0F0F0 |	
-| `tileStyle.pendingBackgroundColor` | Background color for the part of a cell which is pending (for a program which is currently on). | `ColorValue` | Yes | #C2C2C2 |	
-| `tileStyle.rowHeight` | Height in pixels of each row.	| `number` |  | 96 |	
-| `tileStyle.fontSize`	| Font size for text in program tiles (there are other sizes used by EPG which are not yet customizable). | `number` |  | 32 |	
-| `tileStyle.boldFocusedTitle` | Boolean which controls whether bold text style is used for the tile which is in focus. | `boolean` | Yes | `FALSE` |	
-| `tileStyle.borderRadius` | The border radius value specified here (in pixels) is used for the shape of the cells containing program tiles and the channel logos, where a higher value results in rounder corners. A value of 0 would provide square corners. | `number` | Yes | 4 |	
-| `tileStyle.tileSpacing` | The number of pixels of extra space between the program tiles. | `number` | Yes | 8 |
-| `timeRange` | Affects the time span of the grid and the position of the EPG along it. |  | Yes |  |
-| `timeRange.starTimeMs` | `startTimeMs` sets the start of the EPG's grid. It can be set in the past to view previously played programs. `startTimeMs` can't be greater than the current time. | number | Yes | The current time rounded down to the nearest 30 minutes. In units of milliseconds from epoch, for example, 1745276430000. |
-| `timeRange.initialPosition` | `initialPosition` sets the initial time frame viewed when the EPG is loaded for the first time. `initialPosition` can't be greater than the current time. | number | Yes | The current time rounded down to the nearest 30 minutes. In units of milliseconds from epoch, for example, 1745276430000. |
-| `timelineStyle` | Prop containing options for the timeline. |  | Yes |  |
-| `timelineStyle.progressBar` | The timeline props for progress bar component. | | Yes	|  |	
-| `timelineStyle.progressBar.hidden` | Hides progress bar. | `boolean` | Yes |	 |	
-| `timelineStyle.playhead`	| The timeline props for the playhead component. | | Yes |  |	
-| `timelineStyle.playhead.hidden` | Hides the playhead. | `boolean` | Yes |	|	
-| `timelineStyle.playhead.source` | Allows users to use custom playhead images. Only local images, located in the **assets/images** subfolder are supported. | `number`	| Yes | Auto-calculated based on the current playhead image.	|	
-| `timelineStyle.playhead.height` | Allows users to specify the height of the playhead. If not specified, the height is auto-calculated. | `(event: EPGScrollEvent) => void` | Yes |  |	
-| `timelineStyle.playhead.width` | Allows users to specify the width of the playhead. If not specified, the height is auto-calculated. | `number` | Yes | Auto-calculated based on the current playhead image. |	
-| `timelineStyle.playhead.height` | Allows users to specify the vertical position relative to the timeline. | `number` |  | -14 |	
+| Prop | Description | Type | Optional | Default |
+| --- | --- | --- | --- | --- |
+| `onScroll` | Callback when the user moves to a different cell, after the animation completes. | `(event: EPGScrollEvent) => void` | Yes | |
+| `onTileFocus` | Callback when the user focuses on a cell (lands on it for 250 ms or longer). | `(event: EPGTileFocusEvent) => void` | No | |
+| `onTilePress` | Callback when the user selects a cell. | `(event: EPGTilePressEvent) => void` | No | |
+| `onMenu` | Callback when the user presses the menu (three-line) button. | `(event: EPGMenuEvent) => void` | Yes | |
+| `onMetricEmit` | Callback when the component emits performance-related metrics. | `(event: EPGMetricsEmitEvent) => void` | Yes | |
+| `favoriteStyle` | Container for favorite-related props. | | Yes | |
+| `favoriteStyle.imageOn` | Image in **assets/image** to display for a favorite channel. | `string` | No (if favoriteStyle is specified) | Without `favoriteStyle`, the favorite functionality is off, with no visual indicator of the favorite status. |
+| `favoriteStyle.imageOff` | Image in **assets/image** to display for a non-favorite channel. | `string` | Yes | Blank image |
+| `focusBorder` | Container for focus border props. | | Yes | |
+| `focusBorder.enabled` | Displays a border around the focused cell. | `boolean` | No (if focusBorder is specified) | `FALSE` |
+| `focusBorder.color` | Hex color value for the focused cell border. | `ColorValue` | Yes | #FFC166 |
+| `localizedStrings` | Specifies the text that appears in the EPG component. Use `localizedStrings` to modify text that the data does not determine. | | Yes | |
+| `localizedStrings.loadingText` | Text that appears on program tiles before data loads. | string | Yes | "Loading schedule..." |
+| `localizedStrings.unavailableText` | Text that appears on program tiles when loaded data is invalid. | string | Yes | "Programming information unavailable." |
+| `localizedStrings.favoriteAccessibilityLabel` | Accessibility label that describes whether a channel is a favorite. | string | Yes | "Favorite" |
+| `logoStyle` | Container for channel logo style props. | | Yes | |
+| `logoStyle.backgroundColor` | Background color for channel logo cells on the left side of the grid. | `ColorValue` | Yes | #4A4A4A |
+| `logoStyle.width` | Width, in pixels, for channel logo cells on the left side of the grid. This value also affects the space reserved on the left side of the timeline bar. | `number` | Yes | 363 |
+| `overlayStyle` | Container for overlay props. The overlay is a progress-bar indicator within program cells that shows the current time position within a program. | | Yes | |
+| `overlayStyle.enabled` | Shows an overlay within each program tile. | `boolean` | No (if overlayStyle is specified) | `FALSE` |
+| `overlayStyle.pendingColor` | Color for the overlay section that represents the remaining program time. | `ColorValue` | Yes | #3D3D3D |
+| `overlayStyle.elapsedColor` | Color for the overlay section that represents the elapsed program time. | `ColorValue` | Yes | #E94047 |
+| `tileLayout` | Layout variant for each program tile. In `standard` mode, only the title appears. In `expanded` mode, the description and remaining minutes also appear. | `standard` <br> `expanded` | Yes | `standard` |
+| `tileStyle` | Container for tile style props. | | Yes | |
+| `tileStyle.backgroundColor` | Default background color, in hex. | `ColorValue` | Yes | #2A2A2A |
+| `tileStyle.foregroundColor` | Default foreground (text) color, in hex. | `ColorValue` | Yes | #F0F0F0 |
+| `tileStyle.focusedForegroundColor` | Foreground text color for a focused cell. | `ColorValue` | Yes | #1A1A1A |
+| `tileStyle.elapsedBackgroundColor` | Background color for the elapsed part of a currently-airing program cell. | `ColorValue` | Yes | #F0F0F0 |
+| `tileStyle.pendingBackgroundColor` | Background color for the pending part of a currently-airing program cell. | `ColorValue` | Yes | #C2C2C2 |
+| `tileStyle.rowHeight` | Height, in pixels, of each row. | `number` | Yes | 96 |
+| `tileStyle.fontSize` | Font size for text in program tiles. Other EPG font sizes are not yet customizable. | `number` | Yes | 32 |
+| `tileStyle.boldFocusedTitle` | Controls whether the focused tile uses bold text. | `boolean` | Yes | `FALSE` |
+| `tileStyle.borderRadius` | Border radius, in pixels, for program tile and channel logo cells. Higher values produce rounder corners. A value of 0 produces square corners. | `number` | Yes | 4 |
+| `tileStyle.tileSpacing` | Extra space, in pixels, between program tiles. | `number` | Yes | 8 |
+| `tileStyle.fontFamilyPrimary` | Font for text inside program tiles. See [Custom font support](#custom-font-support). | `string` | Yes | |
+| `tileStyle.fontFamilySecondary` | Font for the timeline bar text. See [Custom font support](#custom-font-support). | `string` | Yes | |
+| `timeRange` | Affects the time span of the grid and the position of the EPG along it. | | Yes | |
+| `timeRange.startTimeMs` | Sets the start of the EPG grid. You can set this value in the past to view previously-aired programs. The value cannot be greater than the current time. | number | Yes | The current time rounded down to the nearest 30 minutes, in milliseconds from epoch. For example, 1745276430000. |
+| `timeRange.initialPosition` | Sets the initial time frame that appears when the EPG first loads. The value cannot be greater than the current time. | number | Yes | The current time rounded down to the nearest 30 minutes, in milliseconds from epoch. For example, 1745276430000. |
+| `timelineStyle` | Container for timeline options. | | Yes | |
+| `timelineStyle.progressBar` | Timeline props for the progress bar component. | | Yes | |
+| `timelineStyle.progressBar.hidden` | Hides the progress bar. | `boolean` | Yes | |
+| `timelineStyle.playhead` | Timeline props for the playhead component. | | Yes | |
+| `timelineStyle.playhead.hidden` | Hides the playhead. | `boolean` | Yes | |
+| `timelineStyle.playhead.source` | Custom playhead image. Only local images in the **assets/image** subfolder are supported. | `string` | Yes | Auto-calculated based on the current playhead image. |
+| `timelineStyle.playhead.height` | Height of the playhead, in pixels. If not specified, the component auto-calculates the height. | `number` | Yes | |
+| `timelineStyle.playhead.width` | Width of the playhead, in pixels. If not specified, the component auto-calculates the width. | `number` | Yes | Auto-calculated based on the current playhead image. |
+| `timelineStyle.playhead.verticalOffset` | Vertical position of the playhead relative to the timeline. | `number` | Yes | -14 |
 
 
 
 
+**Note**: For all color values, use only six-character hex values.
 
-**Note**: For all color values, you can only use 6 character hex values.
-
-The following diagram demonstrates which props correspond to colors.
+The following diagram shows which props correspond to which colors.
 
 <img src="docs/images/epg.png" />
 
 
 
-### Customize the timeline using the timelineStyle prop
+### Customize the timeline with the timelineStyle prop
 
-The `timelineStyle` prop allows you to customize the timeline that is located above the EPG grid. You can customize the following elements:
+Use the `timelineStyle` prop to customize the timeline above the EPG grid. You can customize the following elements:
 
-* Progress bar: The red highlighted part of the timeline that indicates how much time has progressed since the start time of the EPG.
+* Progress bar: The red highlighted part of the timeline that indicates how much time has progressed since the EPG start time.
 
-* Playhead: The visual indicator that marks the current time. The image for playhead must be located in the **assets/images** folder.
+* Playhead: The visual indicator that marks the current time. Place the playhead image in the **assets/image** folder.
 
 
 <img src="docs/images/EPGTimeLineStyleProp.png"/>
@@ -219,7 +212,7 @@ TimelineStyle {
   };
   playhead?: {
     hidden?: boolean;
-    source?: "string"
+    source?: string;
     height?: number;
     width?: number;
     verticalOffset?: number;
@@ -227,11 +220,11 @@ TimelineStyle {
 }
 ```
 
-To view details about the `timelineStyle` props, see the [EPG component usage and props](#epg-component-usage-and-props) section. 
+For details about the `timelineStyle` props, see the [EPG component usage and props](#epg-component-usage-and-props) section.
 
 ### Favorite channels functionality
 
-The EPG component supports a visual indicator for 'favorite' channels to the left of the channel logo cells. You can use your own logos for the 'off' and 'on' favorite state, for example, a heart or star icon. 
+The EPG component supports a visual indicator for favorite channels to the left of the channel logo cells. You can use your own logos for the "off" and "on" favorite states, for example, a heart or star icon.
 
 **Example: Favorite icon**
 
@@ -240,7 +233,7 @@ The EPG component supports a visual indicator for 'favorite' channels to the lef
 
 
 
-To designate a favorite channel, you can set `isFavorite: true` in the channel object. For the initial display of the guide, you can also use `isFavorite: false` to display your custom `off` icon that designates a channel as not a favorite. If the favorite state needs to be changed at runtime, you use the imperative method `updateFavorite` as shown in the following example.
+To designate a favorite channel, set `isFavorite: true` in the channel object. For the initial display of the guide, set `isFavorite: false` to display your custom "off" icon for a non-favorite channel. To change the favorite state at runtime, call the imperative method `updateFavorite` as the following example shows.
 
 
 **Example: `updateFavorite` method**
@@ -249,12 +242,12 @@ To designate a favorite channel, you can set `isFavorite: true` in the channel o
 epg.current?.updateFavorite(channelId, true);
 ```
 
-To use the favorite feature, you must supply at least an 'on' icon image for the favorites in the props as shown in the following example.
+To use the favorite feature, supply at least an "on" icon image for the favorites in the props as the following example shows.
 
 **Example: Add favorite icon image**
 
 ```ts
-<EPG ...
+<KeplerEPG ...
     favoriteStyle={{
         imageOn: 'small_heart.png',
     }}
@@ -262,25 +255,23 @@ To use the favorite feature, you must supply at least an 'on' icon image for the
 ```
 
 
-If `imageOff` is not specified in the channel object, a ‘blank’ image is rendered for rows where `isFavorite` is set to `false`or unspecified. You must place your favorite images in the **assets/image** folder within your app package source.
-
-
+If you do not specify `favoriteStyle.imageOff`, the component renders a blank image for rows where `isFavorite` is `false` or unspecified. Place your favorite images in the **assets/image** folder within your app package source.
 
 
 
 Imperative methods
 ------------------
 
-With the EPG component being more complex than many React Native components, certain imperative methods are required. 
+Because the EPG component is more complex than many React Native components, it requires certain imperative methods.
 
-**Example: How a reference is obtained to call imperative methods**
+**Example: Obtain a reference to call imperative methods**
 
 ```ts
-import { EPG, EPGActions } from '@amazon-devices/kepler-ui-components';
+import { KeplerEPG, KeplerEPGRef } from '@amazon-devices/keplerscript-epg';
 
-const epg = useRef<EPGActions>(null);
+const epg = useRef<KeplerEPGRef>(null);
 ...
-<EPG
+<KeplerEPG
   ref={epg}
   ...
  />
@@ -288,71 +279,75 @@ const epg = useRef<EPGActions>(null);
  epg.current?.updateGridStartTime(newGridStartTime);
 ```
 
+`KeplerEPGRef` also provides `resetViewport`, `presetChannelContainer` and `focusOnEPG`, which this sample does not use.
+
 ### resetData method
 
-Using the `resetData` method, you can replace the existing data of the guide with new data. The `resetData` method is the equivalent to clearing all data out, and then calling the `updateData` method again.
+Use the `resetData` method to replace the existing guide data with new data. The `resetData` method clears all data and then calls the `updateData` method.
 
 #### Parameters
 
-* `channelData`: an array where each element is data for a different channel. Each object should have information on the identifiers of the channel (ID) and an array of program data. See the [Data model](#data-model) section for more details on the structure of this data.
-* `page` (optional): a boolean used to inform the EPG component about page-related information that is not directly part of the channel data. `page` contains two optional subobjects: `startTimeMs` and `endTimeMs`.
-    * `startTimeMs` (optional): a number used to define the start time of a queried page. Use only with `endTimeMs`. When the start and end time are provided with the page info, any program information gaps show as *Unavailable*.
-    * `endTimeMs` (optional): a number used to define the end time of a queried page. Use only with `startTimeMs`. When the start and end time are provided with the page info, any program information gaps show as *Unavailable*.
+* `channelData`: An array where each element contains data for a different channel. Each object includes the channel identifiers (ID) and an array of program data. See the [Data model](#data-model) section for more details on the data structure.
+* `page` (optional): An object that provides the EPG component with page-related information not directly part of the channel data. The `page` object contains two optional sub-properties: `startTimeMs` and `endTimeMs`.
+    * `startTimeMs` (optional): A number that defines the start time of a queried page. Use only with `endTimeMs`. When you provide both the start and end time with the page info, any program information gaps appear as *Unavailable*.
+    * `endTimeMs` (optional): A number that defines the end time of a queried page. Use only with `startTimeMs`. When you provide both the start and end time with the page info, any program information gaps appear as *Unavailable*.
 
 
 ### updateData method
 
 #### Parameters
 
-* `channelData`: an array where each element is data for a different channel. Each object should have information on the identifiers of the channel (id ) and an array of program data. See the [Data model](#data-model) for more details on the structure of this data.
-* `page` (optional): a boolean used to inform the EPG about page-related information that is not directly part of the channel data. `page` contains two optional subobjects: `startTimeMs` and `endTimeMs`.
-    * `startTimeMs` (optional): a number used to define the start time of a queried page. Use only with `endTimeMs`. When the start and end time are provided with the page info, any program information gaps show as *Unavailable*.
-    * `endTimeMs` (optional): a number used to define the end time of a queried page. Use only with `startTimeMs`. When the start and end time are provided with the page info, any program information gaps show as *Unavailable*.
+* `channelData`: An array where each element contains data for a different channel. Each object includes the channel identifiers (`id`) and an array of program data. See the [Data model](#data-model) section for more details on the data structure.
+* `page` (optional): An object that provides the EPG with page-related information not directly part of the channel data. The `page` object contains three optional sub-properties: `startTimeMs`, `endTimeMs` and `prepend`.
+    * `startTimeMs` (optional): A number that defines the start time of a queried page. Use only with `endTimeMs`. When you provide both the start and end time with the page info, any program information gaps appear as *Unavailable*.
+    * `endTimeMs` (optional): A number that defines the end time of a queried page. Use only with `startTimeMs`. When you provide both the start and end time with the page info, any program information gaps appear as *Unavailable*.
+    * `prepend` (optional): A boolean. When `true`, the EPG inserts the channels in reverse order at the top of the guide.
 
 #### Description
 
-The EPG component manages data for channels and programs internally, so data can't be passed through props. Instead, data is updated using the `updateData()` function. The input of this function is an array of channel data, where each element is data for a different channel, including the programs on that channel. Then this input data is merged with the existing EPG data inside the EPG. To merge the data, the EPG follows these steps:
+The EPG component manages channel and program data internally, so you cannot pass data through props. Instead, update data by calling the `updateData()` function. This function accepts an array of channel data, where each element represents a different channel and its programs. The EPG then merges this input data with its existing data by following these steps:
 
-1. Check to see if data for that channel already exists in the EPG data. Channels are uniquely identified by the `id` property. If there is a channel with the same `id` in the EPG data, then the channel that is being added already exists.
+1. Check whether data for the channel already exists. The `id` property uniquely identifies each channel.
     1. If the channel exists:
-        1. Access the data record of that channel
+        1. Access the existing data record for that channel.
     2. If the channel does not exist:
-        1. Create a new record for that channel
-2. Add the programs from input channel data to the EPG data.
-    1. For each program, the EPG checks if data already exists for that program. Programs are identified by their channel and `startTime`. If there is a program with the same `startTime` as the target program, then the program that is being added already exists.
-        1. If program data already exists:
-            1. The new program data overwrites the old.
-        2. If program data doesn’t exist:
-            1. Check to see if the time span/duration of of the new program overlaps with any existing programs.
-                1. If there is no overlap between the new program and existing programs for this channel, the new program is added to the EPG at the appropriate time.
-                2. If `startTime` of the new program conflicts with an existing program’s `endTime`, the existing program is shortened so that the new program is added at the correct `startTime` . In other words if `newProgram.startTime < existingProgram.endTime` then `existingProgram` is updated so that `existingProgram.endTime =  newProgram.startTime.`
-                3. If `endTime` of the new program is greater than the `startTime` of the next chronological program, then this new program’s duration is shortened.
+        1. Create a new record for that channel.
+2. Add the programs from the input channel data.
+    1. For each program, the EPG checks whether data already exists for that program. The EPG identifies programs by their channel and `startTime`. If a program with the same `startTime` already exists, the EPG treats it as a duplicate.
+        1. If the program data already exists:
+            1. The new program data overwrites the old data.
+        2. If the program data does not exist:
+            1. Check whether the new program's time span overlaps with any existing programs.
+                1. If there is no overlap, the EPG adds the new program at the appropriate time.
+                2. If the new program's `startTime` conflicts with an existing program's `endTime`, the EPG shortens the existing program so that the new program starts at the correct time. In other words, if `newProgram.startTime < existingProgram.endTime`, the EPG updates `existingProgram.endTime` to equal `newProgram.startTime`.
+                3. If the new program's `endTime` is greater than the next chronological program's `startTime`, the EPG shortens the new program's duration.
 
 #### Example usage
 
-Below is an example of an app’s usage of the `updateData` method. The app is opened at 2:00pm.
+The following example shows how an app uses the `updateData` method. The app opens at 2:00 pm.
 
-1. App queries for timeline grid data in 2-dimensional blocks. In this example, a ‘page’ of data returned is 10 channels’ program data for 12 hours.
-2. App queries for and receives the data for the first 10 channels, starting from 2:00pm. We’ll call this **Page-0-0**. This data is sent to `channelData`. Internally, new channels and programs are inserted into the data store.
-3. Next, the app queries for the next 10 channels, also from 2:00pm, **Page-1-0** and sends that to `updateData`, which internally inserts new channels and programs.
-4. The user scrolls a bit to the right, the app receives an `onScroll` event and determines that it is necessary to query the next page to the right. Lets say this page is the first 10 channels, but it starts 12 hours after 2:00pm, at 2:00am. **Page-0-1** is sent to `updateData`, and internally, the programs are appended to existing channels in the data store.
+1. The app queries for timeline grid data in two-dimensional blocks. In this example, a page of data contains 10 channels of program data for 12 hours.
+2. The app queries for and receives data for the first 10 channels, starting from 2:00 pm. Call this data set **Page-0-0**. The app sends this data to `channelData`, and the EPG inserts the new channels and programs into the data store.
+3. Next, the app queries for the next 10 channels, also from 2:00 pm (**Page-1-0**), and sends that data to `updateData`. The EPG inserts the new channels and programs.
+4. The user scrolls to the right. The app receives an `onScroll` event and determines that it needs to query the next page. This page contains the first 10 channels starting 12 hours after 2:00 pm, at 2:00 am. The app sends **Page-0-1** to `updateData`, and the EPG appends the programs to the existing channels in the data store.
 
 ### updateFavorite
 
-For more information about the `updateFavorite` method, see the [Favorite channels functionality](#favorite-channels-functionality) section.  
+For more information about the `updateFavorite` method, see the [Favorite channels functionality](#favorite-channels-functionality) section.
 
-### updateGridStartTime(gridStartTimeMs: number)
+### updateGridStartTime(gridStartTimeMs: number, timelinePosition?: number)
 
-This function sets the start time, or the earliest time visible on the grid. Initially the start time is set to the current time, rounded to the nearest 30 minute interval. The start time is static and does not update by itself. Instead, users can set the start time by using the `updateGridStartTime` method. This function accepts a time represented in milliseconds. It is recommended that the input time is a multiple of 30 mins (for example, 2:00, 2:30, 3:00, 3:30). After `updateGridStartTime`, the EPG component removes all programs that ended before the new start time. The new time is at the left most edge of the grid.
+This method sets the start time, or the earliest time visible on the grid. Initially, the start time is the current time rounded to the nearest 30-minute interval. The start time does not update automatically. Instead, call the `updateGridStartTime` method to set a new start time. This method accepts a time in milliseconds. Use a time that is a multiple of 30 minutes (for example, 2:00, 2:30, 3:00, 3:30). After you call `updateGridStartTime`, the EPG component removes all programs that ended before the new start time. The new time appears at the leftmost edge of the grid.
 
 #### Example usage
 
-Consider a scenario where a user opens the EPG app at 2:00pm. The user leaves the app open until 5:30pm and as they navigate the grid, they see a large amount of “expired” programs. With a timer set in the calling app to occur for instance every 30 minutes, and calling this method, the grid automatically updates itself.
+Consider a scenario where a user opens the EPG app at 2:00 pm. The user leaves the app open until 5:30 pm, and as they navigate the grid, they see many expired programs. Set a timer in the calling app to run every 30 minutes and call this method. The grid then updates automatically.
+
 
 Data model
 -----------------------
 
-Below is a description of the channel and program data that has to be sent by the caller to populate the grid with content. While certain fields are required, as noted, extra fields sent by the caller are preserved, so if there is any specific metadata which is required by the calling application, used by callbacks, this is automatically supported.
+The following section describes the channel and program data that the caller sends to populate the grid with content. While certain fields are required (as noted), the EPG preserves any extra fields that the caller sends. If your calling application requires specific metadata for callbacks, the EPG automatically supports that metadata.
 
 ### Example: Program
 
@@ -373,22 +368,23 @@ interface Program {
 interface Channel {
     id: string;
     displayName: string;
-    groupId: string;
-    groupName: string;
+    groupId?: string;
+    groupName?: string;
     logoUrl: string;
     programs: Program[];
     extras?: any;
+    isFavorite?: boolean;
 }
 ```
 
 Event callbacks
 ---------------
 
-This section contains a description of the events fired by the EPG component that callers can subscribe to. The required event handlers are: `onTileFocus` and `onTilePress`.
+The EPG component fires the following events that callers can subscribe to. The required event handlers are `onTileFocus` and `onTilePress`.
 
 ### onScroll: (event: EPGScrollEvent) => void;
 
-Event is fired at the conclusion of scrolling animation. 
+Fires at the conclusion of a scrolling animation.
 
 
 **Example: Payload**
@@ -404,7 +400,7 @@ Event is fired at the conclusion of scrolling animation.
 
 ### onTileFocus: (event: EPGTileFocusEvent) => void;
 
-This event represents the user resting their focus on a given tile. It fires once a tile has been in focus for 250 ms.
+Fires when the user rests focus on a tile for 250 ms or longer.
 
 **Example: Payload**
 
@@ -419,20 +415,21 @@ EPGFocusEventPayload {
 
 ### onTilePress: (event: EPGTilePressEvent) => void;
 
-Event is fired when the Select button (center button) is pressed while some tile is focused.
+Fires when the user presses the Select button (center button) while a tile has focus.
 
 **Example: Payload**
 
 ```ts
 EPGPressEventPayload {
     program: Program;
-    channel: Channel
+    channel: Channel;
+    rowIndex?: number;
 }
 ```
 
 ### onMenu: (event: EPGMenuEvent) => void;
 
-Event is fired when the Menu button is pressed (the button with 3 horizontal lines).
+Fires when the user presses the Menu button (the button with three horizontal lines).
 
 **Example: Payload**
 
@@ -445,7 +442,7 @@ EPGMenuEventPayload {
 
 ### onMetricEmit: (event: EPGMetricsEmitEvent) => void;
 
-This prop represents a feature which is a placeholder at this time. In a future release, metrics that can be relevant to the caller will be emitted. This prop can be omitted.
+This event is a placeholder. In a future release, the EPG component will emit metrics relevant to the caller. You can omit this prop.
 
 **Example: Payload**
 
@@ -458,21 +455,18 @@ EPGMetricsEmitEventPayload {
 Custom font support
 -------------------
 
-EPG can support custom fonts so you can control the typography within the EPG. There are two fonts, primary and secondary, and you can specify both, or just one. The secondary font is used in the timeline bar (such as for the date/time string), and the primary font is used everywhere else (primarily inside the tiles). Place the fonts in your app's `assets/fonts` directory. 
+The EPG component supports custom fonts so you can control the typography. There are two font slots: primary and secondary. You can specify both, or just one. The secondary font applies to the timeline bar (such as the date and time string), and the primary font applies everywhere else (primarily inside the tiles). Place the font files in your app's `assets/fonts` directory.
 
-**Example: Specify primary, secondary or both in the `tileStyle` prop**
+**Example: Specify primary, secondary, or both fonts in the `tileStyle` prop**
 
 ```ts
-<EPG
+<KeplerEPG
     ...
     tileStyle={{
         fontFamilyPrimary: 'Merriweather-Light',
-        fontFamilySecondary: 'Merriweather-Bold',
+        fontFamilySecondary: 'Merriweather-Regular',
     }}
 />
 ```
 
-The font names must match exactly. If the font names contain spaces, the spaces should also be there in the prop string.
-
-Release notes
--------------
+The font names must match exactly. If the font names contain spaces, include the spaces in the prop string.
