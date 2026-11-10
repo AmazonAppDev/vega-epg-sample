@@ -14,6 +14,8 @@ Build and run the app
 
 Before you launch the sample app, make sure that you have [installed the Vega SDK](https://developer.amazon.com/docs/vega/latest/install-vega-sdk.html).
 
+This branch targets Vega OS 1.2 (`min` and `target` in the `[os.version]` section of `manifest.toml`). To build for Vega OS 2.0, use the `main` branch.
+
 
 ### Step 1: Build the app
 
