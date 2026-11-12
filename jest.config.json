@@ -1,7 +1,7 @@
 {
   "preset": "react-native",
   "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": ["ts-jest", { "babelConfig": true, "diagnostics": true }]
   },
   "testRegex": "/tst/.*\\.(test|spec)\\.(ts|tsx|js)$",
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
@@ -25,11 +25,5 @@
   "transformIgnorePatterns": [
     "node_modules/(?![\\w\\-_]+)/node_modules/(?!react-native|@react-native)/"
   ],
-  "coverageDirectory": ".tmp/coverage",
-  "globals": {
-    "ts-jest": {
-      "babelConfig": true,
-      "diagnostics": true
-    }
-  }
+  "coverageDirectory": ".tmp/coverage"
 }
