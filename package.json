@@ -23,16 +23,16 @@
   },
   "dependencies": {
     "react": "18.2.0",
-    "react-native": "0.72.0",
+    "react-native": "0.87.1",
     "date-fns": "^4.0.0",
     "@amazon-devices/kepler-performance-api": "^0",
-    "@amazon-devices/react-native-kepler": "^2.0.0",
-    "@amazon-devices/kepler-ui-components": "^2.0.0"
+    "@amazon-devices/react-native-kepler": "^4.0.1",
+    "@amazon-devices/kepler-ui-components": "^3.2.2"
   },
   "devDependencies": {
     "@react-native/eslint-config": "0.72.2",
-    "@react-native/metro-config": "^0.72.6",
-    "@react-native-community/cli": "11.3.2",
+    "@react-native/metro-config": "^0.87.1",
+    "@react-native-community/cli": "20.2.0",
     "@testing-library/react-native": "^7.2.0",
     "@types/jest": "^28.0.0",
     "@types/react": "^18.0.24",
