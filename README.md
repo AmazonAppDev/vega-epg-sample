@@ -10,13 +10,13 @@ The EPG (Electronic Program Guide) Sample App demonstrates how to use EPG compon
 Branches
 --------
 
-> **Heads up:** `main` targets **Vega OS 2.0** (Vega SDK 2.0). Older Vega branches target OS 1.2. Check the branch you're on before you build, because the Vega SDK and OS versions must match.
+> **Heads up:** `main` uses React Native 0.83 and requires **Vega OS 2.1 or later**. For devices on Vega OS 1.2 or 2.0, use the `release-rn-72` branch. Check the branch you're on before you build: it must match your device's Vega OS version.
 
 | Branch          | React Native | Vega OS                              | Use when                                      |
 | --------------- | ------------ | ------------------------------------ | --------------------------------------------- |
-| `main`          | 0.83         | 2.0 (`min` and `target` in manifest) | You're building for Vega OS 2.0 (the default) |
-| `release-rn-83` | 0.83         | 1.2 (`min` and `target` in manifest) | You need Vega OS 1.2 with React Native 0.83   |
-| `release-rn-72` | 0.72         | 1.2 (`min` and `target` in manifest) | You need the older React Native 0.72 setup    |
+| `main`          | 0.83         | 2.1 or later (see [Prerequisites](#prerequisites)) | Your device runs Vega OS 2.1 or later (the default) |
+| `release-rn-72` | 0.72         | 1.2 (`min` and `target` in manifest) | Your device runs Vega OS 1.2 or 2.0           |
+| `release-rn-83` | 0.72         | 1.2 (`min` and `target` in manifest) | Don't use; same code as `release-rn-72` for now |
 
 
 Build and run the app
@@ -26,9 +26,11 @@ Build and run the app
 
 Before you launch the sample app, make sure that you have [installed the Vega SDK](https://developer.amazon.com/docs/vega/latest/install-vega-sdk.html).
 
-Building this app requires Vega SDK 2.0 or later. The app targets Vega OS 2.0 (`min` and `target` in the `[os.version]` section of `manifest.toml`). To support OS 1.2 devices, you can set `min = "1.2"`, but then guard any API added after OS 1.2. See [Target OS versions](https://developer.amazon.com/docs/vega/latest/target-os-version.html).
+Building this app requires Vega SDK 2.0 or later. Running it requires **Vega OS 2.1 or later**. On Vega OS 1.2 and 2.0, the system EPG component is built for React Native 0.72, so this React Native 0.83 app crashes on launch there. For those devices, use the `release-rn-72` branch.
 
-> **Check the branch first.** `main` needs Vega SDK 2.0. Install a 2.0.x SDK and set it as the default with `vega sdk use <version>` ([Vega 2.0 Get Started guide](https://developer.amazon.com/docs/vega/2.0/vega-get-started)). Other branches target an older OS. See [Branches](#branches), and confirm with `[os.version]` in `manifest.toml`.
+The `[os.version]` section of `manifest.toml` sets `min` and `target` to `"2.0"` because the newest Vega SDK, 2.0, does not accept `"2.1"` yet. Don't lower `min` to `"1.2"` on this branch. See [Target OS versions](https://developer.amazon.com/docs/vega/latest/target-os-version.html).
+
+> **Check the branch first.** `main` needs Vega SDK 2.0 or later. Install a 2.0.x or later SDK and set it as the default with `vega sdk use <version>` ([Vega 2.0 Get Started guide](https://developer.amazon.com/docs/vega/2.0/vega-get-started)). Other branches target an older OS. See [Branches](#branches) for the OS each branch runs on.
 
 
 ### Step 1: Build the app
