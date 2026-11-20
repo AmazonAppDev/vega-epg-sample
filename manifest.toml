@@ -12,16 +12,12 @@ id = "com.amazondeveloper.keplerscriptepg"
 icon = "@image/default_app_icon.png"
 
 [os.version]
-min = "1.2"
-target = "1.2"
+min = "2.0"
+target = "2.0"
 
 [components]
 [[components.interactive]]
 id = "com.amazondeveloper.keplerscriptepg.main"
-runtime-module = "/com.amazon.kepler.keplerscript.runtime.loader_2@IKeplerScript_2_0"
+runtime-module = "/com.amazon.kepler.runtime.react_native_kepler_4@IReactNativeKepler_0"
 launch-type = "singleton"
 categories = ["com.amazon.category.main"]
-
-[needs]
-[[needs.module]]
-id = "/com.amazon.vega.os@IVega_1_2"
