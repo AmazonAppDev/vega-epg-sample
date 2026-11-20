@@ -16,7 +16,7 @@ Branches
 | --------------- | ------------ | ------------------------------------ | --------------------------------------------- |
 | `main`          | 0.83         | 2.1 or later (see [Prerequisites](#prerequisites)) | Your device runs Vega OS 2.1 or later (the default) |
 | `release-rn-72` | 0.72         | 1.2 (`min` and `target` in manifest) | Your device runs Vega OS 1.2 or 2.0           |
-| `release-rn-83` | 0.72         | 1.2 (`min` and `target` in manifest) | Don't use; same code as `release-rn-72` for now |
+| `release-rn-83` | 0.83         | 2.1 or later, like `main` (`min` and `target` 2.0 in manifest) | Same code as `main`; prefer `main` |
 
 
 Build and run the app
@@ -30,7 +30,7 @@ Building this app requires Vega SDK 2.0 or later. Running it requires **Vega OS 
 
 The `[os.version]` section of `manifest.toml` sets `min` and `target` to `"2.0"` because the newest Vega SDK, 2.0, does not accept `"2.1"` yet. Don't lower `min` to `"1.2"` on this branch. See [Target OS versions](https://developer.amazon.com/docs/vega/latest/target-os-version.html).
 
-> **Check the branch first.** `main` needs Vega SDK 2.0 or later. Install a 2.0.x or later SDK and set it as the default with `vega sdk use <version>` ([Vega 2.0 Get Started guide](https://developer.amazon.com/docs/vega/2.0/vega-get-started)). Other branches target an older OS. See [Branches](#branches) for the OS each branch runs on.
+> **Check the branch first.** `main` needs Vega SDK 2.0 or later. Install a 2.0.x or later SDK and set it as the default with `vega sdk use <version>` ([Vega 2.0 Get Started guide](https://developer.amazon.com/docs/vega/2.0/vega-get-started)). `release-rn-72` targets an older OS. See [Branches](#branches) for the OS each branch runs on.
 
 
 ### Step 1: Build the app
