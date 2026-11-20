@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: MIT-0
 
 import React, { useRef, useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, PixelRatio, StyleSheet, Text, View } from 'react-native';
 import { roundToNearestMinutes } from 'date-fns';
 
-import { EPG, EPGActions, Typography } from '@amazon-devices/kepler-ui-components';
+import { KeplerEPG, KeplerEPGRef } from '@amazon-devices/keplerscript-epg';
 import { useReportFullyDrawn } from '@amazon-devices/kepler-performance-api';
+
+const SF = PixelRatio.get();
 
 
 import { GROUP_2_DATA, GROUP_1_DATA } from './EPG/data';
@@ -43,7 +45,7 @@ interface HeaderData {
 * to the current time and calls updateGridStartTime().
 */
 
-function updateTime(epg: React.RefObject<EPGActions>) {
+function updateTime(epg: React.RefObject<KeplerEPGRef>) {
   if (epg.current?.updateGridStartTime) {
     const currentTimeBoundary = roundToNearestMinutes(new Date(), {
       nearestTo: 30,
@@ -57,14 +59,14 @@ function updateTime(epg: React.RefObject<EPGActions>) {
 };
 
 // Sets the interval of updateTime to be every 30 minutes
-function setRegularUpdateTimeInterval(epg: React.RefObject<EPGActions>) {
+function setRegularUpdateTimeInterval(epg: React.RefObject<KeplerEPGRef>) {
   return setInterval(() => {
     updateTime(epg);
   }, THIRTY_MINUTES);
 };
 
 export const App = () => {
-  const epg = useRef<EPGActions>(null); // This ref is used to access imperative functions of EPG
+  const epg = useRef<KeplerEPGRef>(null); // This ref is used to access imperative functions of EPG
   const reportFullyDrawnCallback = useReportFullyDrawn(); // Used for performance metrics
 
   // This app has a header component that displays information about the currently focused program. Information in the header is stored in the following state variable.
@@ -111,24 +113,21 @@ export const App = () => {
   return (
     <View style={styles.background}>
       <View style={styles.header}>
-        <Image style={styles.headerImage} source={{ uri: header.image }} />
+        {header.image ? <Image style={styles.headerImage} source={{ uri: header.image }} /> : <View style={styles.headerImage} />}
         <View style={styles.miniDetails}>
-          <Typography
-            variant="title"
-            size="lg"
+          <Text
             style={styles.headerTitle}
             numberOfLines={1}>
             {header.title}
-          </Typography>
-          <Typography
-            variant="body"
+          </Text>
+          <Text
             style={styles.headerDescription}
             numberOfLines={2}>
             {header.shortDescription}
-          </Typography>
+          </Text>
         </View>
       </View>
-      <EPG
+      <KeplerEPG
         ref={epg}
         onTileFocus={({ payload }) => {
           console.log(`Focused on ${JSON.stringify(payload)}`);
@@ -181,9 +180,9 @@ export const App = () => {
           enabled: true,
         }}
         tileStyle={{
-          borderRadius: 6,
-          rowHeight: 88, // adjust this when switching tileLayout (or remove it to get the default)
-          fontSize: 28,
+          borderRadius: 6 / SF,
+          rowHeight: 88 / SF, // adjust this when switching tileLayout (or remove it to get the default)
+          fontSize: 28 / SF,
           pendingBackgroundColor: '#3A4558',
           elapsedBackgroundColor: '#4C5566',
           backgroundColor: '#14171B',
@@ -198,7 +197,7 @@ export const App = () => {
           elapsedColor: '#E94047',
         }}
         logoStyle={{
-          width: 320,
+          width: 320 / SF,
           backgroundColor: '#d0d0d0',
         }}
         timelineStyle={TIMELINE_STYLES.STYLE_1}
@@ -213,38 +212,40 @@ const styles = StyleSheet.create({
   background: { backgroundColor: '#373940' },
   epgActionButtons: {
     flexDirection: 'row',
-    margin: 20,
+    margin: 20 / SF,
     width: '40%',
     justifyContent: 'space-evenly',
   },
   header: {
     width: '100%',
-    height: 400,
+    height: 400 / SF,
     backgroundColor: '#202124',
-    marginBottom: 20,
+    marginBottom: 20 / SF,
     flexDirection: 'row',
   },
   headerTitle: {
     zIndex: 1,
     fontFamily: 'Roboto Regular',
+    fontSize: 32 / SF,
     color: '#DADADA',
-    margin: 10,
-    marginTop: 60,
+    margin: 10 / SF,
+    marginTop: 60 / SF,
   },
   headerDescription: {
     zIndex: 1,
     fontFamily: 'Roboto-Thin',
+    fontSize: 24 / SF,
     color: '#DADADA',
-    width: 900,
-    margin: 10,
+    width: 900 / SF,
+    margin: 10 / SF,
   },
   headerImage: {
-    height: 400,
-    width: 711,
+    height: 400 / SF,
+    width: 711 / SF,
     opacity: 0.7,
   },
   miniDetails: {
-    paddingLeft: 20,
+    paddingLeft: 20 / SF,
     flexDirection: 'column',
   },
 });
